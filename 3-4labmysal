@@ -1,0 +1,26 @@
+; y=a*x+b
+.386
+.model flat, stdcall
+option casemap:none
+.data
+str_format db "y=%u", 0
+str_buffer db 256 dup (0)
+msg db "Mysal 1", 0
+a db 2
+x db 5
+b db 7
+.code
+start:
+move al,a
+mul x
+mov bx,ax
+mov al,b
+cbw
+add ax,bx
+movzx adx, ax
+invoke wsprintf,ADDR str_buffer, ADDR
+str_format,edx
+invoke MessageBox,0,ADDR str_buffer,
+ADDR msg,MB_OK
+invoke ExitProcess, NULL
+end start
